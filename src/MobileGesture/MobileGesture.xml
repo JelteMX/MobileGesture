@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="MobileGesture.widget.MobileGesture" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MobileGesture</name>
+    <description>Mobile Gesture widget</description>
+    <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABG0lEQVR42p3Sv0uCQRzH8XMIBQlcWiRoaHVu8y+ooRBMQlwUoiUazKFBbAwcXMTBItAlfyEiUQhNbS2CuIij4lBLi0Gb76N74ny453migxfH8+P74e6+5xPrI4IK9uBHDGnMcCoMw2d73sYtgojiASdqjnsFWMUZhDBGA8fabAyQy/7Uiufa9z8FvGJpKLYHbOIdH3jGixXwjTecqWU7BSTQQgFFLPBoP0ThEHCnutFUhynnC1RNAbIgibpqo773jDqr35WZAno4RBn72DH8E7G6ZAq4xAR95HHttkVTgLyBHRwI79FwOsQsRhj8N0D2vIYjj4C2WxuvMMSTw/cwbtwCAugiJX5unz62cI9zr4u0ixK+tHeyZgM5TFeNQj7XgLpWDgAAAABJRU5ErkJggg==</icon>
+    <properties>
+        <property key="elementSelector" type="string" required="true" defaultValue="">
+            <caption>Swipe element selector</caption>
+            <category>Main</category>
+            <description>Class/ID that will be used to add the mobile gesture to. For instance ".mx-layoutcontainer-middle". This selector is a CSS selector, so you can use a '.className' and '#ID' if you want</description>
+        </property>
+        <property key="parentOfNode" type="boolean" required="true" defaultValue="false">
+            <caption>Parent</caption>
+            <category>Main</category>
+            <description>If parent is set to yes, it will search for the swipe element as a parent, relative to the widget.</description>
+        </property>
+        <property key="timeout" type="integer" required="true" defaultValue="0">
+            <caption>Timeout</caption>
+            <category>Main</category>
+            <description>Timeout to set the events. This might be necessary when you add this to pages where the element is not rendered yet. Usually you can leave this to 0</description>
+        </property>
+        <property key="mfToExecuteRight" type="microflow" required="false" defaultValue="">
+            <caption>Swipe Right Microflow</caption>
+            <category>Swiping</category>
+            <description>The microflows to execute when swiping right</description>
+            <returnType type="Void"/>
+        </property>
+        <property key="mfToExecuteLeft" type="microflow" required="false" defaultValue="">
+            <caption>Swipe Left Microflow</caption>
+            <category>Swiping</category>
+            <description>The microflows to execute when swiping left</description>
+            <returnType type="Void"/>
+        </property>
+        <property key="mfToExecuteTop" type="microflow" required="false" defaultValue="">
+            <caption>Swipe Top Microflow</caption>
+            <category>Swiping</category>
+            <description>The microflows to execute when swiping up</description>
+            <returnType type="Void"/>
+        </property>
+        <property key="mfToExecuteBottom" type="microflow" required="false" defaultValue="">
+            <caption>Swipe Bottom Microflow</caption>
+            <category>Swiping</category>
+            <description>The microflows to execute when swiping down</description>
+            <returnType type="Void"/>
+        </property>
+        <property key="mfToExecutePress" type="microflow" required="false" defaultValue="">
+            <caption>Press Microflow</caption>
+            <category>Press</category>
+            <description>The microflows to execute when press and hold.</description>
+            <returnType type="Void"/>
+        </property>
+        <property key="mfToExecuteDoubleTap" type="microflow" required="false" defaultValue="">
+            <caption>Double Tap Microflow</caption>
+            <category>Tap</category>
+            <description>The microflows to execute when double tap.</description>
+            <returnType type="Void"/>
+        </property>
+    </properties>
+</widget>

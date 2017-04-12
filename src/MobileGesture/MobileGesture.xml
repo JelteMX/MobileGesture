@@ -4,6 +4,7 @@
     <description>Mobile Gesture widget</description>
     <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABG0lEQVR42p3Sv0uCQRzH8XMIBQlcWiRoaHVu8y+ooRBMQlwUoiUazKFBbAwcXMTBItAlfyEiUQhNbS2CuIij4lBLi0Gb76N74ny453migxfH8+P74e6+5xPrI4IK9uBHDGnMcCoMw2d73sYtgojiASdqjnsFWMUZhDBGA8fabAyQy/7Uiufa9z8FvGJpKLYHbOIdH3jGixXwjTecqWU7BSTQQgFFLPBoP0ThEHCnutFUhynnC1RNAbIgibpqo773jDqr35WZAno4RBn72DH8E7G6ZAq4xAR95HHttkVTgLyBHRwI79FwOsQsRhj8N0D2vIYjj4C2WxuvMMSTw/cwbtwCAugiJX5unz62cI9zr4u0ixK+tHeyZgM5TFeNQj7XgLpWDgAAAABJRU5ErkJggg==</icon>
     <properties>
+        <!-- MaAIN -->
         <property key="elementSelector" type="string" required="true" defaultValue="">
             <caption>Swipe element selector</caption>
             <category>Main</category>
@@ -19,36 +20,60 @@
             <category>Main</category>
             <description>Timeout to set the events. This might be necessary when you add this to pages where the element is not rendered yet. Usually you can leave this to 0</description>
         </property>
+        <!-- SWIPE MICROFLOW -->
         <property key="mfToExecuteRight" type="microflow" required="false" defaultValue="">
             <caption>Swipe Right Microflow</caption>
-            <category>Swiping</category>
+            <category>Swipe Microflow</category>
             <description>The microflows to execute when swiping right</description>
             <returnType type="Void"/>
         </property>
         <property key="mfToExecuteLeft" type="microflow" required="false" defaultValue="">
             <caption>Swipe Left Microflow</caption>
-            <category>Swiping</category>
+            <category>Swipe Microflow</category>
             <description>The microflows to execute when swiping left</description>
             <returnType type="Void"/>
         </property>
-        <property key="mfToExecuteTop" type="microflow" required="false" defaultValue="">
-            <caption>Swipe Top Microflow</caption>
-            <category>Swiping</category>
+        <property key="mfToExecuteUp" type="microflow" required="false" defaultValue="">
+            <caption>Swipe Up Microflow</caption>
+            <category>Swipe Microflow</category>
             <description>The microflows to execute when swiping up</description>
             <returnType type="Void"/>
         </property>
-        <property key="mfToExecuteBottom" type="microflow" required="false" defaultValue="">
-            <caption>Swipe Bottom Microflow</caption>
-            <category>Swiping</category>
+        <property key="mfToExecuteDown" type="microflow" required="false" defaultValue="">
+            <caption>Swipe Down Microflow</caption>
+            <category>Swipe Microflow</category>
             <description>The microflows to execute when swiping down</description>
             <returnType type="Void"/>
         </property>
+        <!-- SWIPE PAGE -->
+        <property key="pageToOpenRight" type="form" required="false">
+            <caption>Swipe Right Page</caption>
+            <category>Swipe Page</category>
+            <description>The page to open on swipe right. Note: this is overridden by the 'Swipe Right Microflow'</description>
+        </property>
+        <property key="pageToOpenLeft" type="form" required="false">
+            <caption>Swipe Left Page</caption>
+            <category>Swipe Page</category>
+            <description>The page to open on swipe left. Note: this is overridden by the 'Swipe Left Microflow'</description>
+        </property>
+        <property key="pageToOpenUp" type="form" required="false">
+            <caption>Swipe Up Page</caption>
+            <category>Swipe Page</category>
+            <description>The page to open on swipe up. Note: this is overridden by the 'Swipe Up Microflow'</description>
+        </property>
+        <property key="pageToOpenDown" type="form" required="false">
+            <caption>Swipe Down Page</caption>
+            <category>Swipe Page</category>
+            <description>The page to open on swipe down. Note: this is overridden by the 'Swipe Down Microflow'</description>
+        </property>
+        <!-- PRESS -->
         <property key="mfToExecutePress" type="microflow" required="false" defaultValue="">
             <caption>Press Microflow</caption>
             <category>Press</category>
             <description>The microflows to execute when press and hold.</description>
             <returnType type="Void"/>
         </property>
+        <!-- Tap -->
         <property key="mfToExecuteDoubleTap" type="microflow" required="false" defaultValue="">
             <caption>Double Tap Microflow</caption>
             <category>Tap</category>

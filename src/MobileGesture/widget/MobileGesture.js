@@ -17,19 +17,26 @@ define([
     "dojo/_base/lang",
     "dojo/_base/event",
     "MobileGesture/lib/hammer",
-    "dojo/NodeList-traverse",
+    "dojo/NodeList-traverse"
 ], function(declare, _WidgetBase, query, lang, dojoEvent, Hammer) {
     "use strict";
+
+    var MxContext = mendix.lib.MxContext;
 
     return declare("MobileGesture.widget.MobileGesture", [ _WidgetBase], {
 
         // Parameters configured in the Modeler.
         mfToExecuteRight: "",
         mfToExecuteLeft: "",
-        mfToExecuteTop: "",
-        mfToExecuteBottom: "",
+        mfToExecuteUp: "",
+        mfToExecuteDown: "",
         mfToExecutePress: "",
         mfToExecuteDoubleTap: "",
+
+        pageToOpenRight: "",
+        pageToOpenLeft: "",
+        pageToOpenUp: "",
+        pageToOpenDown: "",
 
         elementSelector : "",
         parentOfNode: false,
@@ -48,16 +55,19 @@ define([
 
         postCreate: function () {
             logger.debug(this.id + ".postCreate");
+            logger.level(logger.DEBUG);
         },
 
         update: function(obj, callback) {
             logger.debug(this.id + ".update");
             this._contextObj = obj;
-            callback();
+            this._executeCallback(callback, "update");
             if (!this._setup) {
                 this._runInTimeout(lang.hitch(this, function () {
-                    this._setupEvents();
+                    this._setupEvents(callback);
                 }));
+            } else {
+                this._executeCallback(callback, "update");
             }
         },
 
@@ -88,7 +98,9 @@ define([
 
             if (bindClass && bindClass.length) {
                 // Set Manager
-                this._mc = new Hammer(bindClass[0]);
+                this._mc = new Hammer(bindClass[0], { touchAction: "auto" });
+
+                this._mc.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
 
                 // Set onPress handler
                 this._onPress = lang.hitch(this, function(ev) {
@@ -100,18 +112,32 @@ define([
                 this._onSwipe = lang.hitch(this, function(ev) {
                     logger.debug(this.id + ".mc swipe");
 
-                    var mfToExecute = "";
+                    var action = "";
+                    var actionValue = "";
+
                     if (ev.direction === Hammer.DIRECTION_RIGHT) {
-                        mfToExecute = this.mfToExecuteRight;
+                        action = this.mfToExecuteRight !== "" ? "microflow" : "page";
+                        actionValue = this.mfToExecuteRight !== "" ? this.mfToExecuteRight : this.pageToOpenRight;
                     } else if (ev.direction === Hammer.DIRECTION_LEFT) {
-                        mfToExecute = this.mfToExecuteLeft;
+                        action = this.mfToExecuteLeft !== "" ? "microflow" : "page";
+                        actionValue = this.mfToExecuteLeft !== "" ? this.mfToExecuteLeft : this.pageToOpenLeft;
                     } else if (ev.direction === Hammer.DIRECTION_UP) {
-                        mfToExecute = this.mfToExecuteTop;
+                        action = this.mfToExecuteUp !== "" ? "microflow" : "page";
+                        actionValue = this.mfToExecuteUp !== "" ? this.mfToExecuteUp : this.pageToOpenUp;
                     } else if (ev.direction === Hammer.DIRECTION_DOWN) {
-                        mfToExecute = this.mfToExecuteDown;
+                        action = this.mfToExecuteDown !== "" ? "microflow" : "page";
+                        actionValue = this.mfToExecuteDown !== "" ? this.mfToExecuteDown : this.pageToOpenDown;
                     }
 
-                    this._executeMF(this._contextObj, mfToExecute);
+                    if (actionValue === "") {
+                        return;
+                    }
+
+                    if (action === "page") {
+                        this._openPage(this._contextObj, actionValue);
+                    } else if (action === "microflow") {
+                        this._executeMF(this._contextObj, actionValue);
+                    }
                 });
 
                 // Set onTap handler
@@ -128,29 +154,22 @@ define([
             }
 
             this._setup = true;
-            mendix.lang.nullExec(callback);
+            this._executeCallback(callback, "_setupEvents");
         },
 
         _executeMF: function (obj, mf, callback) {
-            logger.debug(this.id + "._executeMF");
             if (!callback) {
                 callback = lang.hitch(this, function () {
                     logger.debug(this.id + "_executeMF mf: '" + mf + "' called");
                 });
             }
             if (mf !== "") {
-                var guids = [];
-                if (obj) {
-                    guids = [ obj.getGuid() ];
-                }
-                mx.data.action({
+                logger.debug(this.id + "._executeMF");
+                var guids = obj && obj.getGuid ? [ obj.getGuid() ] : [];
+                mx.ui.action(mf, {
                     params: {
                         applyto: "selection",
-                        actionname: mf,
                         guids: guids
-                    },
-                    store: {
-                        caller: this.mxform
                     },
                     callback: callback,
                     error: lang.hitch(this, function(error) {
@@ -160,17 +179,44 @@ define([
             }
         },
 
+        _openPage: function (obj, formName) {
+            logger.debug(this.id + "._openPage " + formName);
+            var formArgs = {
+                location: "content",
+                callback: function () {
+                    logger.debug(this.id + "._openPage cb success");
+                },
+                error: function (err) {
+                    logger.debug(this.id + "._openPage cb error");
+                    console.warn(err);
+                }
+            };
+
+            if (obj) {
+                var context = new MxContext();
+                context.setTrackObject(obj);
+                formArgs.context = context;
+            }
+
+            mx.ui.openForm(formName, formArgs, this);
+        },
+
         uninitialize: function () {
             logger.debug(this.id + ".uninitialize");
             if (this._mc) {
                 this._mc.off("press", this._onPress);
-                this._mc.off("tap", this._onDoubleTap);
+                this._mc.off("doubletap", this._onDoubleTap);
                 this._mc.off("swipe", this._onSwipe);
+            }
+        },
+
+        _executeCallback: function (cb, from) {
+            logger.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
+            if (cb && typeof cb === "function") {
+                cb();
             }
         }
     });
 });
 
-require(["MobileGesture/widget/MobileGesture"], function() {
-    "use strict";
-});
+require(["MobileGesture/widget/MobileGesture"]);

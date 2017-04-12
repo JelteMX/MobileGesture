@@ -5,12 +5,14 @@
     <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABG0lEQVR42p3Sv0uCQRzH8XMIBQlcWiRoaHVu8y+ooRBMQlwUoiUazKFBbAwcXMTBItAlfyEiUQhNbS2CuIij4lBLi0Gb76N74ny453migxfH8+P74e6+5xPrI4IK9uBHDGnMcCoMw2d73sYtgojiASdqjnsFWMUZhDBGA8fabAyQy/7Uiufa9z8FvGJpKLYHbOIdH3jGixXwjTecqWU7BSTQQgFFLPBoP0ThEHCnutFUhynnC1RNAbIgibpqo773jDqr35WZAno4RBn72DH8E7G6ZAq4xAR95HHttkVTgLyBHRwI79FwOsQsRhj8N0D2vIYjj4C2WxuvMMSTw/cwbtwCAugiJX5unz62cI9zr4u0ixK+tHeyZgM5TFeNQj7XgLpWDgAAAABJRU5ErkJggg==</icon>
     <properties>
         <!-- MaAIN -->
-        <property key="elementSelector" type="string" required="true" defaultValue="">
+        <property key="elementSelector" type="string" required="true" defaultValue=".mx-layoutcontainer-middle">
             <caption>Swipe element selector</caption>
             <category>Main</category>
-            <description>Class/ID that will be used to add the mobile gesture to. For instance ".mx-layoutcontainer-middle". This selector is a CSS selector, so you can use a '.className' and '#ID' if you want</description>
+            <description>Class/ID that will be used to add the mobile gesture to. For instance ".mx-layoutcontainer-middle".
+
+This selector is a CSS selector, so you can use a '.className'. If you have a container with a name, for example 'container1', set the selector to '.mx-name-container1'</description>
         </property>
-        <property key="parentOfNode" type="boolean" required="true" defaultValue="false">
+        <property key="parentOfNode" type="boolean" required="true" defaultValue="true">
             <caption>Parent</caption>
             <category>Main</category>
             <description>If parent is set to yes, it will search for the swipe element as a parent, relative to the widget.</description>
@@ -69,7 +71,7 @@
         <!-- PRESS -->
         <property key="mfToExecutePress" type="microflow" required="false" defaultValue="">
             <caption>Press Microflow</caption>
-            <category>Press</category>
+            <category>Press and hold</category>
             <description>The microflows to execute when press and hold.</description>
             <returnType type="Void"/>
         </property>

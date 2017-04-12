@@ -86,6 +86,13 @@ define([
         _setupEvents: function(callback) {
             logger.debug(this.id + "._setupEvents");
 
+            var validSelectors = [
+                "body", "head", "html"
+            ];
+            if (this.elementSelector.indexOf(".") === -1 && this.elementSelector.indexOf("#") === -1 && validSelectors.indexOf(this.elementSelector)) {
+                this.elementSelector = "." + this.elementSelector;
+            }
+
             var bindClass;
             if (this.parentOfNode) {
                 bindClass = query(this.domNode).closest(this.elementSelector);
